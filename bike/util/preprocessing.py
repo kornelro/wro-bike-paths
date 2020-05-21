@@ -22,7 +22,7 @@ def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2=None):
 def smooth_graph(
     G: nx.Graph,
     nodes: Dict[int, Vertex],
-    angle_treshold: float = 90.
+    angle_treshold: float = 145.
 ) -> nx.Graph:
     nodes_to_remove = []
 
