@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from lazy import lazy
 from pathlib import Path
 from bike.model.edge import Edge
