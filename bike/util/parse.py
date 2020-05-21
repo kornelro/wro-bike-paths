@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 
 def get_vertices_id(
@@ -39,7 +39,7 @@ def parse_qgis_data(
                 'distance': r1['SHAPE_LEN']
             }
             edges = edges.append(row, ignore_index=True)
-        except:
+        except Exception:
             print('Cannot parse rows: ', i, ', ', i+1)
 
     if save_to_files:

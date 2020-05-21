@@ -6,4 +6,3 @@ class Vertex:
     id: int
     x: float
     y: float
-    
