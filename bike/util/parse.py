@@ -2,7 +2,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def get_vertice_id(
+def get_vertices_id(
     x: float,
     y: float,
     vertices: pd.DataFrame
