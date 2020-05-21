@@ -1,8 +1,10 @@
 from pytest import fixture
+from bike.model.graph import Graph
+from pathlib import Path
 
 
 VERTICES_PATH = Path('bike/test/vertices.csv')
-EDGES_PATH = Path('bike/test/edges.csv')
+EDGES_PATH = Path('biketest/edges.csv')
 
 
 @fixture(scope='session')
