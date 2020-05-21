@@ -1,8 +1,7 @@
-from pytest import fixture
-from pathlib import Path
+import networkx as nx
+
 from bike.model.edge import Edge
 from bike.model.vertex import Vertex
-import networkx as nx
 
 from ..graph import Graph
 
@@ -34,4 +33,3 @@ def test_nx_graph(graph: Graph):
     nx_graph = graph.nx_graph
 
     assert isinstance(nx_graph, nx.Graph)
-

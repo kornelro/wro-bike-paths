@@ -47,10 +47,10 @@ class Graph:
         for index, row in edges_pd.iterrows():
             edge = Edge(
                 id=row['id'],
-                v1=row['v1']
-                v2=row['v2']
-                edge_type=row['type']
-                direction=row['direction']
+                v1=row['v1'],
+                v2=row['v2'],
+                edge_type=row['type'],
+                direction=row['direction'],
                 distance=row['distance']
             )
 
