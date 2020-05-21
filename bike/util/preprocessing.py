@@ -1,8 +1,38 @@
-from typing import Tuple, Dict
-import numpy as np
+from typing import Tuple
+
 import networkx as nx
-from tqdm import tqdm
-from bike.model.vertex import Vertex
+import numpy as np
+from tqdm.auto import tqdm
+
+from bike.model.graph import Graph
+
+
+def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
+    nodes_to_remove = []
+    G = graph.nx_graph
+
+    for node in tqdm(G.nodes):
+        neighbors = list(G.neighbors(node))
+
+        if len(neighbors) == 2:
+            n1 = graph.vertices_by_id[neighbors[0]]
+            p1 = (n1.x, n1.y)
+
+            n2 = graph.vertices_by_id[node]
+            p2 = (n2.x, n2.y)
+
+            n3 = graph.vertices_by_id[neighbors[1]]
+            p3 = (n3.x, n3.y)
+
+            angle = _get_angle(p1, p2, p3)
+            if (angle > angle_treshold) and (360 - angle > angle_treshold):
+                nodes_to_remove.append(node)
+
+    for node in tqdm(nodes_to_remove):
+        G.add_edge(*G.neighbors(node))
+        G.remove_node(node)
+
+    return G
 
 
 def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2=None):
@@ -17,34 +47,3 @@ def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2=None):
 
     angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
     return np.degrees(angle)
-
-
-def smooth_graph(
-    G: nx.Graph,
-    nodes: Dict[int, Vertex],
-    angle_treshold: float = 145.
-) -> nx.Graph:
-    nodes_to_remove = []
-
-    for node in tqdm(G.nodes):
-        neighbors = list(G.neighbors(node))
-
-        if len(neighbors) == 2:
-            n1 = nodes[neighbors[0]]
-            p1 = (n1.x, n1.y)
-
-            n2 = nodes[node]
-            p2 = (n2.x, n2.y)
-
-            n3 = nodes[neighbors[1]]
-            p3 = (n3.x, n3.y)
-
-            angle = _get_angle(p1, p2, p3)
-            if (angle > angle_treshold) and (360 - angle > angle_treshold):
-                nodes_to_remove.append(node)
-
-    for node in tqdm(nodes_to_remove):
-        G.add_edge(*G.neighbors(node))
-        G.remove_node(node)
-
-    return G

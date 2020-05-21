@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 
 def get_vertices_id(
