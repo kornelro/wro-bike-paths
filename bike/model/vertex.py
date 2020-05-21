@@ -5,4 +5,5 @@ from dataclasses import dataclass
 class Vertex:
     id: int
     x: float
-    y: float    
+    y: float
+    

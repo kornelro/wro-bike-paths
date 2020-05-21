@@ -2,6 +2,7 @@ from typing import Tuple, Dict
 import numpy as np
 import networkx as nx
 from tqdm import tqdm
+from bike.model.vertex import Vertex
 
 
 def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2=None):
@@ -20,23 +21,23 @@ def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2=None):
 
 def smooth_graph(
     G: nx.Graph,
-    nodes: Dict(),
+    nodes: Dict[int, Vertex],
     angle_treshold: float = 90.
 ) -> nx.Graph:
     nodes_to_remove = []
 
     for node in tqdm(G.nodes):
-        neighbors = G.neighbors(node)
+        neighbors = list(G.neighbors(node))
 
         if len(neighbors) == 2:
-            n1 = nodes.iloc[neighbors[0]]
-            p1 = (n1['x'], n1['y'])
+            n1 = nodes[neighbors[0]]
+            p1 = (n1.x, n1.y)
 
-            n2 = nodes.iloc[node]
-            p2 = (n2['x'], n2['y'])
+            n2 = nodes[node]
+            p2 = (n2.x, n2.y)
 
-            n3 = nodes.iloc[neighbors[1]]
-            p3 = (n3['x'], n3['y'])
+            n3 = nodes[neighbors[1]]
+            p3 = (n3.x, n3.y)
 
             angle = _get_angle(p1, p2, p3)
             if (angle > angle_treshold) and (360 - angle > angle_treshold):

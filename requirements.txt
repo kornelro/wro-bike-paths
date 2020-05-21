@@ -1,3 +1,4 @@
+austen==0.2.7
 evobench==0.2.2
 flake8==3.8.1
 networkx==2.4
