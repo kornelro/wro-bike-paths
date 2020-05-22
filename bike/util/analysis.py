@@ -70,7 +70,7 @@ def run_analysis(G, vis=False):
     if res[1] >= 0:
         res[0] = np.median(np.array(list(map(lambda x: x[1], list(res[0])))))
         print_results('degree median', res)
-   
+
     # betweenness_centrality
     res = run_with_timeout(G, betweenness_centrality, 'betweenness centrality median')
     if res[1] >= 0:
