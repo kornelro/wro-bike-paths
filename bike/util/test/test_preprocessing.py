@@ -5,6 +5,6 @@ from bike.util.preprocessing import smooth_graph
 
 
 def test_smooth_graph(graph: Graph):
-    nx_graph = smooth_graph(graph, 135.)
+    nx_graph = smooth_graph(graph, 45)
 
     assert isinstance(nx_graph, nx.Graph)

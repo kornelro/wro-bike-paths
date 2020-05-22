@@ -61,6 +61,10 @@ class Graph:
     def nx_graph(self) -> nx.Graph:
         graph = nx.Graph()
         for edge in self.edges:
-            graph.add_edge(edge.v1.id, edge.v2.id)
+            graph.add_edge(
+                edge.v1.id,
+                edge.v2.id,
+                weight=edge.distance
+            )
 
         return graph
