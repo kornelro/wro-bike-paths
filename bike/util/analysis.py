@@ -14,7 +14,7 @@ from networkx.algorithms.approximation.clustering_coefficient import average_clu
 from networkx.algorithms.shortest_paths.generic import average_shortest_path_length
 
 
-TIMEOUT = 120
+TIMEOUT = 30
 
 
 def timeout(max_timeout):

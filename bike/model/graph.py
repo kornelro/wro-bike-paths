@@ -42,6 +42,8 @@ class Graph:
     def edges(self) -> List[Edge]:
         edges = []
         edges_pd = pd.read_csv(self.EDGES_PATH)
+        edges_pd['distance'] = pd.to_numeric(edges_pd['distance'], errors='coerce')
+        edges_pd.fillna(0)
 
         for index, row in edges_pd.iterrows():
             edge = Edge(
