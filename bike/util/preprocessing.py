@@ -24,15 +24,19 @@ def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
             n3 = graph.vertices_by_id[neighbors[1]]
             p3 = (n3.x, n3.y)
 
-            angle = _get_angle(p1, p2, p3)
-            if (angle < angle_treshold) or (360 - angle < angle_treshold):
+            angle = abs(_get_angle(p1, p2, p3))
+            if (angle > angle_treshold) and (360 - angle > angle_treshold):
                 nodes_to_remove.append(node)
 
     for node in tqdm(nodes_to_remove):
-        v1, v2 = G.neighbors(node)
-        w1 = float(G.get_edge_data(v1, node)['weight'])
-        w2 = float(G.get_edge_data(v2, node)['weight'])
-        w = w1 + w2
+        neighbors = list(G.neighbors(node))
+
+        if len(neighbors) == 2:
+            v1 = neighbors[0]
+            v2 = neighbors[1]
+            w1 = float(G.get_edge_data(v1, node)['weight'])
+            w2 = float(G.get_edge_data(v2, node)['weight'])
+            w = w1 + w2
 
         G.add_edge(v1, v2, weight=w)
         G.remove_node(node)
@@ -40,7 +44,7 @@ def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
     return G
 
 
-def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2=None):
+def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2: Tuple[float, float]):
     ''' compute angle (in degrees) for p0p1p2 corner
     Inputs:
         p0,p1,p2 - points in the form of [x,y]
