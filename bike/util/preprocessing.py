@@ -25,7 +25,7 @@ def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
             p3 = (n3.x, n3.y)
 
             angle = _get_angle(p1, p2, p3)
-            if (angle > angle_treshold) and (360 - angle > angle_treshold):
+            if (angle < angle_treshold) or (360 - angle < angle_treshold):
                 nodes_to_remove.append(node)
 
     for node in tqdm(nodes_to_remove):
