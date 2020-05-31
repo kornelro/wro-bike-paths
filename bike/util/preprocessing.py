@@ -29,7 +29,12 @@ def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
                 nodes_to_remove.append(node)
 
     for node in tqdm(nodes_to_remove):
-        G.add_edge(*G.neighbors(node))
+        v1, v2 = G.neighbors(node)
+        w1 = float(G.get_edge_data(v1, node)['weight'])
+        w2 = float(G.get_edge_data(v2, node)['weight'])
+        w = w1 + w2
+
+        G.add_edge(v1, v2, weight=w)
         G.remove_node(node)
 
     return G

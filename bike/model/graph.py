@@ -42,6 +42,8 @@ class Graph:
     def edges(self) -> List[Edge]:
         edges = []
         edges_pd = pd.read_csv(self.EDGES_PATH)
+        edges_pd['distance'] = pd.to_numeric(edges_pd['distance'], errors='coerce')
+        edges_pd.fillna(0)
 
         for index, row in edges_pd.iterrows():
             edge = Edge(
@@ -61,6 +63,10 @@ class Graph:
     def nx_graph(self) -> nx.Graph:
         graph = nx.Graph()
         for edge in self.edges:
-            graph.add_edge(edge.v1.id, edge.v2.id)
+            graph.add_edge(
+                edge.v1.id,
+                edge.v2.id,
+                weight=edge.distance
+            )
 
         return graph
