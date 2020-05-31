@@ -1,4 +1,4 @@
-from lazy import lazy
+from lazy_property import LazyProperty, LazyWritableProperty
 from pathlib import Path
 from bike.model.edge import Edge
 from bike.model.vertex import Vertex
@@ -13,7 +13,7 @@ class Graph:
         self.VERTICES_PATH = vertices_path
         self.EDGES_PATH = edges_path
 
-    @lazy
+    @LazyWritableProperty
     def vertices(self) -> List[Vertex]:
         vertices = []
         vertices_pd = pd.read_csv(self.VERTICES_PATH)
@@ -29,7 +29,7 @@ class Graph:
 
         return vertices
 
-    @lazy
+    @LazyProperty
     def vertices_by_id(self) -> Dict[int, Vertex]:
         vertices_by_id = {}
 
@@ -38,11 +38,10 @@ class Graph:
 
         return vertices_by_id
 
-    @lazy
+    @LazyWritableProperty
     def edges(self) -> List[Edge]:
         edges = []
         edges_pd = pd.read_csv(self.EDGES_PATH)
-        edges_pd['distance'] = pd.to_numeric(edges_pd['distance'], errors='coerce')
         edges_pd.fillna(0)
 
         for index, row in edges_pd.iterrows():
@@ -50,16 +49,13 @@ class Graph:
                 id=row['id'],
                 v1=self.vertices_by_id[row['v1']],
                 v2=self.vertices_by_id[row['v2']],
-                edge_type=row['type'],
-                direction=row['direction'],
-                distance=row['distance']
             )
 
             edges.append(edge)
 
         return edges
 
-    @lazy
+    @LazyProperty
     def nx_graph(self) -> nx.Graph:
         graph = nx.Graph()
         for edge in self.edges:
