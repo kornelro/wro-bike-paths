@@ -1,5 +1,6 @@
 import math
 from multiprocessing import Pool
+from typing import List
 
 from tqdm.auto import tqdm
 
@@ -47,3 +48,11 @@ def snap_vertices(roads: Graph, bikes: Graph) -> Graph:
     bikes.vertices = vertices
 
     return bikes
+
+def get_snapped_ids(bikes: Graph) -> List[int]:
+    snapped_roads_ids = []
+
+    for vertex in bikes.vertices:
+        snapped_roads_ids.append(vertex.roads_vertex_id)
+
+    return snapped_roads_ids

@@ -65,7 +65,7 @@ class Graph:
 
         return edges
 
-    @LazyProperty
+    @LazyWritableProperty
     def nx_graph(self) -> nx.Graph:
         graph = nx.Graph()
         for edge in self.edges:

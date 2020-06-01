@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 
 import networkx as nx
 import numpy as np
@@ -7,7 +7,11 @@ from tqdm.auto import tqdm
 from bike.model.graph import Graph
 
 
-def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
+def smooth_graph(
+    graph: Graph,
+    angle_treshold: float = 135,
+    snapped_ids: List[int] = []
+) -> nx.Graph:
     nodes_to_remove = []
     G = graph.nx_graph
 
@@ -25,7 +29,7 @@ def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
             p3 = (n3.x, n3.y)
 
             angle = abs(_get_angle(p1, p2, p3))
-            if (angle > angle_treshold) and (360 - angle > angle_treshold):
+            if (angle > angle_treshold) and (360 - angle > angle_treshold) and (n2.id not in snapped_ids):
                 nodes_to_remove.append(node)
 
     for node in tqdm(nodes_to_remove):
@@ -41,7 +45,9 @@ def smooth_graph(graph: Graph, angle_treshold: float = 145.) -> nx.Graph:
         G.add_edge(v1, v2, weight=w)
         G.remove_node(node)
 
-    return G
+    graph.nx_graph = G
+
+    return graph
 
 
 def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2: Tuple[float, float]):
@@ -56,3 +62,11 @@ def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2: Tuple[float
 
     angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
     return np.degrees(angle)
+
+
+def remove_snapped(graph: Graph, snapped_ids: List[int]) -> Graph:
+    for edge in tqdm(graph.nx_graph.edges):
+        if edge[0] in snapped_ids and edge[1] in snapped_ids:
+            graph.nx_graph.remove_edge(edge[0], edge[1])
+
+    return graph
