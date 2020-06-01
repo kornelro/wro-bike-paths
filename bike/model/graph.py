@@ -1,10 +1,12 @@
-from lazy_property import LazyProperty, LazyWritableProperty
 from pathlib import Path
+from typing import Dict, List
+
+import networkx as nx
+import pandas as pd
+from lazy_property import LazyProperty, LazyWritableProperty
+
 from bike.model.edge import Edge
 from bike.model.vertex import Vertex
-from typing import List, Dict
-import pandas as pd
-import networkx as nx
 
 
 class Graph:
@@ -16,7 +18,11 @@ class Graph:
     @LazyWritableProperty
     def vertices(self) -> List[Vertex]:
         vertices = []
-        vertices_pd = pd.read_csv(self.VERTICES_PATH)
+        vertices_pd = pd.read_csv(
+            self.VERTICES_PATH,
+            header=0,
+            names=['id', 'x', 'y']
+        )
 
         for index, row in vertices_pd.iterrows():
             vertex = Vertex(
@@ -41,7 +47,11 @@ class Graph:
     @LazyWritableProperty
     def edges(self) -> List[Edge]:
         edges = []
-        edges_pd = pd.read_csv(self.EDGES_PATH)
+        edges_pd = pd.read_csv(
+            self.EDGES_PATH,
+            header=0,
+            names=['id', 'v1', 'v2']
+        )
         edges_pd.fillna(0)
 
         for index, row in edges_pd.iterrows():
