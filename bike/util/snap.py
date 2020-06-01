@@ -29,7 +29,7 @@ def __find_closest_vertex(base_vertex: Vertex, roads: Graph) -> Vertex:
 def __snap_vertex(vertex: Vertex, roads: Graph):
     closest_vertex = __find_closest_vertex(vertex, roads)
 
-    # vertex.id = closest_vertex.id
+    vertex.roads_vertex_id = closest_vertex.id
     vertex.x = closest_vertex.x
     vertex.y = closest_vertex.y
 

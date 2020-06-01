@@ -6,30 +6,30 @@ from bike.model.vertex import Vertex
 from ..graph import Graph
 
 
-def test_vertices(graph: Graph):
-    vertices = graph.vertices
+def test_vertices(graph_bikes: Graph):
+    vertices = graph_bikes.vertices
 
     assert isinstance(vertices, list)
-    assert len(vertices) == 10
+    assert len(vertices) == 22
     assert all(isinstance(vertex, Vertex) for vertex in vertices)
 
 
-def test_vertices_by_id(graph: Graph):
-    vertices_by_id = graph.vertices_by_id
+def test_vertices_by_id(graph_bikes: Graph):
+    vertices_by_id = graph_bikes.vertices_by_id
 
     assert isinstance(vertices_by_id, dict)
     # TODO
 
 
-def test_edges(graph: Graph):
-    edges = graph.edges
+def test_edges(graph_bikes: Graph):
+    edges = graph_bikes.edges
 
     assert isinstance(edges, list)
-    assert len(edges) == 8
+    assert len(edges) == 21
     assert all(isinstance(edge, Edge) for edge in edges)
 
 
-def test_nx_graph(graph: Graph):
-    nx_graph = graph.nx_graph
+def test_nx_graph(graph_bikes: Graph):
+    nx_graph = graph_bikes.nx_graph
 
     assert isinstance(nx_graph, nx.Graph)
