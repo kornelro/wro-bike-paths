@@ -1,9 +1,10 @@
+import math
+from multiprocessing import Pool
+
+from tqdm.auto import tqdm
+
 from bike.model.graph import Graph
 from bike.model.vertex import Vertex
-from bike.model.edge import Edge
-import networkx as nx
-from tqdm.auto import tqdm
-import math
 
 
 def __get_distance(v1: Vertex, v2: Vertex) -> float:
@@ -25,12 +26,22 @@ def __find_closest_vertex(base_vertex: Vertex, roads: Graph) -> Vertex:
     return closest_vertex
 
 
-def snap_vertices(roads: Graph, bikes: Graph) -> Graph:
-    for vertex in tqdm(bikes.vertices, desc='Vertices'):
-        closest_vertex = __find_closest_vertex(vertex, roads)
+def __snap_vertex(vertex: Vertex, roads: Graph):
+    closest_vertex = __find_closest_vertex(vertex, roads)
 
-        # vertex.id = closest_vertex.id
-        vertex.x = closest_vertex.x
-        vertex.y = closest_vertex.y
+    # vertex.id = closest_vertex.id
+    vertex.x = closest_vertex.x
+    vertex.y = closest_vertex.y
+
+    return vertex
+
+
+def snap_vertices(roads: Graph, bikes: Graph) -> Graph:
+    pool = Pool()
+    iterator = [(vertex, roads) for vertex in bikes.vertices]
+    iterator = tqdm(iterator, desc='Vertices')
+
+    vertices = pool.starmap(__snap_vertex, iterator)
+    vertices = list(vertices)
 
     return bikes
