@@ -1,2 +1,2 @@
-def test_snap_vertices(roads: Graph):
-    pass
+# def test_snap_vertices(roads: Graph):
+#     pass
