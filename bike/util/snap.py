@@ -44,4 +44,6 @@ def snap_vertices(roads: Graph, bikes: Graph) -> Graph:
     vertices = pool.starmap(__snap_vertex, iterator)
     vertices = list(vertices)
 
+    bikes.vertices = vertices
+
     return bikes
