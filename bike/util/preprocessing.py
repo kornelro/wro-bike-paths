@@ -51,7 +51,11 @@ def smooth_graph(
     return graph
 
 
-def _get_angle(p0: Tuple[float, float], p1: Tuple[float, float], p2: Tuple[float, float]):
+def _get_angle(
+    p0: Tuple[float, float],
+    p1: Tuple[float, float],
+    p2: Tuple[float, float]
+):
     ''' compute angle (in degrees) for p0p1p2 corner
     Inputs:
         p0,p1,p2 - points in the form of [x,y]

@@ -25,5 +25,3 @@ def test_update_edges(graph_roads: Graph):
 
     assert len(graph_roads.edges) == len(graph_roads.nx_graph.edges)
     assert len(graph_roads.edges) < prev_len
-
-
