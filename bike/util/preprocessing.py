@@ -5,6 +5,7 @@ import numpy as np
 from tqdm.auto import tqdm
 
 from bike.model.graph import Graph
+from bike.model.edge import Edge
 
 
 def smooth_graph(
@@ -68,5 +69,24 @@ def remove_snapped(graph: Graph, snapped_ids: List[int]) -> Graph:
     for edge in tqdm(graph.nx_graph.edges):
         if edge[0] in snapped_ids and edge[1] in snapped_ids:
             graph.nx_graph.remove_edge(edge[0], edge[1])
+
+    return graph
+
+
+def update_edges(graph: Graph) -> Graph:
+
+    current_edges = list(graph.nx_graph.edges)
+    edges = []
+
+    for i, edge in tqdm(enumerate(current_edges)):
+        edges.append(
+            Edge(
+                id=i,
+                v1=graph.vertices_by_id[edge[0]],
+                v2=graph.vertices_by_id[edge[1]]
+            )
+        )
+
+    graph.edges = edges
 
     return graph
