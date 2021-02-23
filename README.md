@@ -8,4 +8,4 @@ This project implements idea to optimize building new bike paths using genetic a
 
 Presented proof of concept was built upon Wroclaw city infrastructure data from OpenStreetMap.
 
-Check [the project poster](https://github.com/piotr-rarus/wro-bike-paths/blob/master/assets/poster.pdf) to see more details.
+Check [the project poster](https://kornelro.github.io/wro-bike-paths/assets/poster.pdf) to see more details.
